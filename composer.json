@@ -1,0 +1,21 @@
+{
+    "name": "scriptfusion/byte-formatter",
+    "description": "Formats byte values as human-readable strings.",
+    "authors": [
+        {
+            "name": "Bilge",
+            "email": "bilge@scriptfusion.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ScriptFUSION\\": "src"
+        }
+    },
+    "require": {
+        "php": ">=5.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}
