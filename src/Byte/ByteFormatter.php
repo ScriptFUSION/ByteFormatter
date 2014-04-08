@@ -1,8 +1,6 @@
 <?php
 namespace ScriptFUSION\Byte;
 
-use ScriptFUSION\Sequence\FiniteSequence;
-
 /**
  * Formats byte values as human-readable strings.
  */
@@ -16,7 +14,7 @@ class ByteFormatter implements BaseAware {
 
     private
         $normalizedFormat,
-        $unitSequence
+        $unitCollection
     ;
 
     public function __construct($precision = 0, $base = Base::BINARY, $format = '%v %u') {
@@ -27,9 +25,16 @@ class ByteFormatter implements BaseAware {
         $log = log($bytes, $this->base);
         $scale = max(0, $log|0);
         $value = round(pow($this->base, $log - $scale), $this->precision);
-        $units = $this->getUnitSequence()->getSequenceIndex($scale);
+        $units = $this->getUnits($value, $scale);
 
         return sprintf($this->normalizedFormat, $value, $units);
+    }
+
+    protected function getUnits($value, $scale) {
+        $collection = $this->getUnitCollection();
+        $collection instanceof ValueAware && $collection->setValue($value);
+
+        return $collection[$scale];
     }
 
     private function normalizeFormat($format) {
@@ -37,14 +42,14 @@ class ByteFormatter implements BaseAware {
     }
 
     /**
-     * Notifies the unit sequence of base changes.
+     * Notifies the unit collection of base changes.
      *
      * @param int $base Numeric base.
      */
     private function notifyBaseChanged($base) {
         $this->automaticUnitSwitching
-            && ($seq = $this->getUnitSequence()) instanceof BaseAware
-            && $seq->setBase($base);
+            && ($collection = $this->getUnitCollection()) instanceof BaseAware
+            && $collection->setBase($base);
     }
 
     public function getBase() {
@@ -74,13 +79,13 @@ class ByteFormatter implements BaseAware {
         return $this;
     }
 
-    public function getUnitSequence() {
-        return $this->unitSequence ?: $this->unitSequence = new ByteUnitSymbolSequence;
+    public function getUnitCollection() {
+        return $this->unitCollection ?: $this->unitCollection = new ByteUnitSymbolCollection;
     }
-    public function setUnitSequence(FiniteSequence $sequence) {
-        $this->unitSequence = $sequence;
+    public function setUnitCollection(ByteUnitCollection $collection) {
+        $this->unitCollection = $collection;
 
-        //Notify new sequence of current base.
+        //Notify new collection of current base.
         $this->notifyBaseChanged($this->base);
 
         return $this;
@@ -88,20 +93,20 @@ class ByteFormatter implements BaseAware {
 
     /**
      * Sets the unit symbol suffix to the specified value.
-     * This is a shortcut method for interfacing with the default unit sequence generator and cannot be used if the
-     * default generator has been replaced with a non-derived object.
+     * This is a shortcut method for interfacing with the default unit collection and cannot be used if the default
+     * collection has been replaced with a non-derived object.
      *
      * @param string $suffix Unit symbol suffix. Defaults to no suffix.
      * @return $this
-     * @throws \BadFunctionCallException when unit sequence is not an instance of ByteUnitSymbolSequence.
+     * @throws \BadFunctionCallException when unit collection is not an instance of ByteUnitSymbolCollection.
      */
-    public function setUnitSymbolSuffix($suffix = ByteUnitSymbolSequence::SUFFIX_NONE) {
-        if (!($seq = $this->getUnitSequence()) instanceof ByteUnitSymbolSequence)
+    public function setUnitSymbolSuffix($suffix = ByteUnitSymbolCollection::SUFFIX_NONE) {
+        if (!($collection = $this->getUnitCollection()) instanceof ByteUnitSymbolCollection)
             throw new \BadFunctionCallException(
-                'Cannot set suffix: unit sequence not instance of ByteUnitSymbolSequence.'
+                'Cannot set suffix: unit collection not instance of ByteUnitSymbolCollection.'
             );
 
-        $seq->setSuffix($suffix);
+        $collection->setSuffix($suffix);
 
         return $this;
     }

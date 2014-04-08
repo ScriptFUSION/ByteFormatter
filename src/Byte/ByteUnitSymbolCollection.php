@@ -1,15 +1,13 @@
 <?php
 namespace ScriptFUSION\Byte;
 
-use ScriptFUSION\Sequence\FiniteSequence;
-
 /**
- * Provides a sequence of byte unit symbols from least to most significant.
+ * Provides a collection of byte unit symbols.
  */
-class ByteUnitSymbolSequence extends FiniteSequence implements BaseAware {
-    protected static $prefixes = 'KMGTPEZY';
-
+class ByteUnitSymbolCollection extends ByteUnitCollection implements BaseAware {
     const
+        PREFIXES = 'KMGTPEZY',
+
         SUFFIX_NONE   = '',
         SUFFIX_METRIC = 'B',
         SUFFIX_IEC    = 'iB'
@@ -24,17 +22,10 @@ class ByteUnitSymbolSequence extends FiniteSequence implements BaseAware {
         $this->setSuffix($suffix)->alwaysShowUnit($alwaysShowUnit);
     }
 
-    public function getSequence() {
-        yield $this->suffix !== self::SUFFIX_NONE || $this->alwaysShowUnit ? 'B' : '';
+    public function offsetGet($offset) {
+        if (!$offset) return $this->suffix !== static::SUFFIX_NONE || $this->alwaysShowUnit ? 'B' : '';
 
-        for ($i = 0; $i < strlen(static::$prefixes); ++$i)
-            yield static::$prefixes[$i] . $this->suffix;
-    }
-
-    public function getSequenceIndex($index) {
-        $sequence = $this->getSequenceArray();
-
-        return $sequence[min($index, count($sequence) - 1)];
+        return substr(static::PREFIXES, min(--$offset, count($this) - 1), 1) . $this->suffix;
     }
 
     public function setBase($base) {

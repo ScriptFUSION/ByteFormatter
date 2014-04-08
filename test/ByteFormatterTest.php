@@ -1,7 +1,7 @@
 <?php
 use ScriptFUSION\Byte\Base;
 use ScriptFUSION\Byte\ByteFormatter;
-use ScriptFUSION\Byte\ByteUnitNameSequence;
+use ScriptFUSION\Byte\ByteUnitNameCollection;
 
 class ByteFormatterTest extends PHPUnit_Framework_TestCase {
     private function createFormatter() {
@@ -126,9 +126,9 @@ class ByteFormatterTest extends PHPUnit_Framework_TestCase {
 
     public function testCustomUnitSequence() {
         //ByteUnitNameSequence should be mocked for unit testing or promoted to integration test.
-        $formatter = (new ByteFormatter)->setUnitSequence(new ByteUnitNameSequence)->setBase(Base::BINARY);
+        $formatter = (new ByteFormatter)->setUnitCollection(new ByteUnitNameCollection)->setBase(Base::BINARY);
 
-        $this->assertSame('1 bytes', $formatter->format(1));
-        $this->assertSame('1 kibibytes', $formatter->format($formatter->getBase()));
+        $this->assertSame('1 byte', $formatter->format(1));
+        $this->assertSame('1 kibibyte', $formatter->format($formatter->getBase()));
     }
 }
