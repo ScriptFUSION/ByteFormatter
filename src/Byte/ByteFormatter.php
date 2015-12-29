@@ -1,124 +1,101 @@
 <?php
 namespace ScriptFUSION\Byte;
 
+use ScriptFUSION\Byte\Unit\UnitDecorator;
+use ScriptFUSION\Byte\Unit\SymbolDecorator;
+
 /**
  * Formats byte values as human-readable strings.
  */
-class ByteFormatter implements BaseAware {
-    protected
-        $base,
-        $format,
-        $precision,
-        $automaticUnitSwitching = true
-    ;
+class ByteFormatter
+{
+    const DEFAULT_BASE = Base::BINARY;
 
-    private
-        $normalizedFormat,
-        $unitCollection
-    ;
+    /** @var int */
+    private $base = self::DEFAULT_BASE;
 
-    public function __construct($precision = 0, $base = Base::BINARY, $format = '%v %u') {
-        $this->setPrecision($precision)->setBase($base)->setFormat($format);
+    /** @var string */
+    private $format;
+
+    /** @var int */
+    private $precision = 0;
+
+    /** @var string */
+    private $normalizedFormat;
+
+    /** @var UnitDecorator */
+    private $unitDecorator;
+
+    public function __construct(UnitDecorator $unitDecorator = null)
+    {
+        $this
+            ->setUnitDecorator($unitDecorator ?: new SymbolDecorator)
+            ->setFormat('%v %u')
+        ;
     }
 
-    public function format($bytes) {
+    public function format($bytes)
+    {
         $log = log($bytes, $this->base);
-        $scale = max(0, $log|0);
-        $value = round(pow($this->base, $log - $scale), $this->precision);
-        $units = $this->getUnits($value, $scale);
+        $exponent = max(0, $log|0);
+        $value = round(pow($this->base, $log - $exponent), $this->precision);
+        $units = $this->getUnitDecorator()->decorate($exponent, $this->base, $value);
 
-        return sprintf($this->normalizedFormat, $value, $units);
+        return trim(sprintf($this->normalizedFormat, $value, $units));
     }
 
-    protected function getUnits($value, $scale) {
-        $collection = $this->getUnitCollection();
-        $collection instanceof ValueAware && $collection->setValue($value);
-
-        return $collection[$scale];
-    }
-
-    private function normalizeFormat($format) {
+    private function normalizeFormat($format)
+    {
         return str_replace(['%v', '%u'], ['%1$s', '%2$s'], $format);
     }
 
-    /**
-     * Notifies the unit collection of base changes.
-     *
-     * @param int $base Numeric base.
-     */
-    private function notifyBaseChanged($base) {
-        $this->automaticUnitSwitching
-            && ($collection = $this->getUnitCollection()) instanceof BaseAware
-            && $collection->setBase($base);
-    }
-
-    public function getBase() {
+    public function getBase()
+    {
         return $this->base;
     }
-    public function setBase($base) {
-        $this->notifyBaseChanged($this->base = +$base);
+
+    public function setBase($base)
+    {
+        $this->base = $base|0;
 
         return $this;
     }
 
-    public function getFormat() {
+    public function getFormat()
+    {
         return $this->format;
     }
-    public function setFormat($format) {
+
+    public function setFormat($format)
+    {
         $this->normalizedFormat = $this->normalizeFormat($this->format = "$format");
 
         return $this;
     }
 
-    public function getPrecision() {
+    public function getPrecision()
+    {
         return $this->precision;
     }
-    public function setPrecision($precision) {
+
+    public function setPrecision($precision)
+    {
         $this->precision = $precision|0;
 
         return $this;
     }
 
-    public function getUnitCollection() {
-        return $this->unitCollection ?: $this->unitCollection = new ByteUnitSymbolCollection;
-    }
-    public function setUnitCollection(ByteUnitCollection $collection) {
-        $this->unitCollection = $collection;
-
-        //Notify new collection of current base.
-        $this->notifyBaseChanged($this->base);
-
-        return $this;
-    }
-
     /**
-     * Sets the unit symbol suffix to the specified value.
-     * This is a shortcut method for interfacing with the default unit collection and cannot be used if the default
-     * collection has been replaced with a non-derived object.
-     *
-     * @param string $suffix Unit symbol suffix. Defaults to no suffix.
-     * @return $this
-     * @throws \BadFunctionCallException when unit collection is not an instance of ByteUnitSymbolCollection.
+     * @return UnitDecorator
      */
-    public function setUnitSymbolSuffix($suffix = ByteUnitSymbolCollection::SUFFIX_NONE) {
-        if (!($collection = $this->getUnitCollection()) instanceof ByteUnitSymbolCollection)
-            throw new \BadFunctionCallException(
-                'Cannot set suffix: unit collection not instance of ByteUnitSymbolCollection.'
-            );
-
-        $collection->setSuffix($suffix);
-
-        return $this;
+    public function getUnitDecorator()
+    {
+        return $this->unitDecorator;
     }
 
-    /**
-     * Enables or disables automatic unit switching that may occur when the base value is changed.
-     *
-     * @param bool $disable true to disable automatic unit switching, otherwise false.
-     * @return $this
-     */
-    public function disableAutomaticUnitSwitching($disable = true) {
-        $this->automaticUnitSwitching = !$disable;
+    public function setUnitDecorator(UnitDecorator $collection)
+    {
+        $this->unitDecorator = $collection;
 
         return $this;
     }

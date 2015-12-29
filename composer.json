@@ -1,13 +1,13 @@
 {
     "name": "scriptfusion/byte-formatter",
     "description": "Formats byte values as human-readable strings.",
+    "license": "MIT",
     "authors": [
         {
             "name": "Bilge",
             "email": "bilge@scriptfusion.com"
         }
     ],
-    "license": "MIT",
     "autoload": {
         "psr-4": {
             "ScriptFUSION\\": "src"
@@ -17,6 +17,8 @@
         "php": ">=5.5"
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "^4",
+        "mockery/mockery": "^0",
+        "squizlabs/php_codesniffer": "^2"
     }
 }

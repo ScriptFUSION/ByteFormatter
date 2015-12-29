@@ -1,0 +1,22 @@
+sudo: false
+
+language: php
+
+php:
+  - 5.5
+  - 5.6
+  - 7.0
+
+before_install:
+  - phpenv config-rm xdebug.ini
+
+install:
+  - composer -n selfupdate
+  - composer -n --prefer-source install
+
+script:
+  - vendor/bin/phpunit test
+  - vendor/bin/phpcs --standard=PSR2 src
+
+notifications:
+  email: false
