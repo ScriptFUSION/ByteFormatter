@@ -22,6 +22,8 @@ final class DocumentationTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('512.55 KiB', (new ByteFormatter)->setPrecision(2)->format(0x80233));
 
         $this->assertSame('512.5 KiB', (new ByteFormatter)->setPrecision(2)->format(0x80200));
+
+        $this->assertSame('512.5498 KiB', (new ByteFormatter)->setPrecision(2)->format(0x80233, 4));
     }
 
     public function testOutputFormat()
