@@ -41,7 +41,8 @@ By default all values are rounded to the nearest integer.
 ```
 > 513 KiB
 
-Increasing the precision with `setPrecision($precision)` allows the specified amount of digits after the decimal point.
+The default precision can be increased with `setPrecision($precision)`. Increasing the precision allows the specified amount of digits after the decimal point.
+
 ```php
 (new ByteFormatter)->setPrecision(2)->format(0x80233);
 ```
@@ -54,6 +55,13 @@ needed.
 (new ByteFormatter)->setPrecision(2)->format(0x80200);
 ```
 > 512.5 KiB
+
+The default precision can be overridden on a per-format basis using the optional precision argument to `format()`.
+
+```php
+(new ByteFormatter)->setPrecision(2)->format(0x80233, 4);
+```
+> 512.5498 KiB
 
 Output format
 -------------

@@ -78,6 +78,7 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
     public function testPrecision($integer, $formatted)
     {
         $this->assertSame($formatted, $this->formatter->setPrecision(2)->format($integer));
+        $this->assertSame($formatted, $this->formatter->setPrecision(5)->format($integer, 2));
     }
 
     public function providePrecisionIntegers()
