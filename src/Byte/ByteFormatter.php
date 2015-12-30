@@ -34,11 +34,12 @@ class ByteFormatter
         ;
     }
 
-    public function format($bytes)
+    public function format($bytes, $precision = null)
     {
+        $precision = $precision === null ? $this->precision : $precision;
         $log = log($bytes, $this->base);
         $exponent = max(0, $log|0);
-        $value = round(pow($this->base, $log - $exponent), $this->precision);
+        $value = round(pow($this->base, $log - $exponent), $precision);
         $units = $this->getUnitDecorator()->decorate($exponent, $this->base, $value);
 
         return trim(sprintf($this->normalizedFormat, $value, $units));
