@@ -41,7 +41,7 @@ By default all values are rounded to the nearest integer.
 ```
 > 513 KiB
 
-The default precision can be increased with `setPrecision($precision)`. Increasing the precision allows the specified amount of digits after the decimal point.
+Increasing the default precision with `setPrecision()` allows the specified number of digits after the decimal point.
 
 ```php
 (new ByteFormatter)->setPrecision(2)->format(0x80233);
@@ -56,7 +56,7 @@ needed.
 ```
 > 512.5 KiB
 
-The default precision can be overridden on a per-format basis using the optional precision argument to `format()`.
+The default precision can be overridden by passing the second argument to `format()`.
 
 ```php
 (new ByteFormatter)->setPrecision(2)->format(0x80233, 4);
@@ -155,8 +155,8 @@ Using decimal base:
 Testing
 -------
 
-This library is fully unit tested. Run the tests with `vendor/bin/phpunit test` from the command line. All the examples
-in this file can be found in `DocumentationTest`.
+This library is fully unit tested. Run the tests with `vendor/bin/phpunit test` from the command line. All examples
+in this document can be found in `DocumentationTest`.
 
   [Releases]: https://github.com/ScriptFUSION/ByteFormatter/releases
   [Version image]: http://img.shields.io/github/tag/ScriptFUSION/ByteFormatter.svg "Latest version"
