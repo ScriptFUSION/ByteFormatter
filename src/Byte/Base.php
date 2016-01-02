@@ -1,6 +1,9 @@
 <?php
 namespace ScriptFUSION\Byte;
 
+/**
+ * Specifies an exponentiation base.
+ */
 final class Base
 {
     const

@@ -1,6 +1,7 @@
 <?php
 namespace ScriptFUSIONTest\Unit\Byte\Unit;
 
+use ScriptFUSION\Byte\Base;
 use ScriptFUSION\Byte\Unit\SymbolDecorator;
 
 final class SymbolDecoratorTest extends \PHPUnit_Framework_TestCase
@@ -39,5 +40,13 @@ final class SymbolDecoratorTest extends \PHPUnit_Framework_TestCase
         foreach (['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'] as $exponent => $symbol) {
             $this->assertSame($symbol, $decorator->decorate($exponent, 0, 0));
         }
+    }
+
+    public function testAutomaticUnitSwitching()
+    {
+        $decorator = new SymbolDecorator;
+
+        $this->assertSame('KiB', $decorator->decorate(1, Base::BINARY, 0));
+        $this->assertSame('KB', $decorator->decorate(1, Base::DECIMAL, 0));
     }
 }

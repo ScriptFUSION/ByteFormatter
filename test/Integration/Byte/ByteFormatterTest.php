@@ -119,17 +119,6 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testAutomaticUnitSwitching()
-    {
-        $formatter = $this->formatter->setUnitDecorator(new SymbolDecorator);
-
-        $formatter->setBase(Base::BINARY);
-        $this->assertSame('1KiB', $formatter->format($formatter->getBase()));
-
-        $formatter->setBase(Base::DECIMAL);
-        $this->assertSame('1KB', $formatter->format($formatter->getBase()));
-    }
-
     public function testCustomUnitSequence()
     {
         $formatter = (new ByteFormatter)->setUnitDecorator(
