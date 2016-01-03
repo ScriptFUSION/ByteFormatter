@@ -56,6 +56,13 @@ needed.
 ```
 > 512.5 KiB
 
+Automatic precision scaling can be disabled if this behaviour is undesired.
+
+```php
+(new ByteFormatter)->setPrecision(2)->disableAutomaticPrecision()->format(0x80200);
+```
+> 512.50 KiB
+
 The default precision can be overridden by passing the second argument to `format()`.
 
 ```php
@@ -66,14 +73,40 @@ The default precision can be overridden by passing the second argument to `forma
 Output format
 -------------
 
-The format can be changed by calling the `setFormat($format)` function which takes a string format parameter.
-The default format is `'%v %u'`. Occurrences of `%v` and `%u` in the format string will be replaced with the calculated
-*value* and *units* respectively.
+The format can be changed by calling `setFormat()` which takes a string format parameter. The default format is
+`'%v %u'`. Occurrences of `%v` and `%u` in the format string will be replaced with the calculated *value* and *units*
+respectively.
 
 ```php
 (new ByteFormatter)->setFormat('%v%u')->format(0x80000);
 ```
 > 512KiB
+
+Fixed exponent
+--------------
+
+One of the main benefits of the formatter is an appropriate exponent is calculated automatically, however it is also
+possible to fix the exponent to a specific value using `setFixedExponent()`.
+
+```php
+(new ByteFormatter)->setFixedExponent(1)->format(1024 * 1024);
+```
+> 1024 KiB
+
+Normally we would expect the above example to output `1 MiB` but because the exponent is locked to `1` the output will
+always be in `KiB`. Consult the following table to see how exponents map to symbols.
+
+| Exponent | Symbol |
+|:--------:|:------:|
+|    0     |    B   |
+|    1     |    K   |
+|    2     |    M   |
+|    3     |    G   |
+|    4     |    T   |
+|    5     |    P   |
+|    6     |    E   |
+|    7     |    Z   |
+|    8     |    Y   |
 
 Unit customization
 ------------------

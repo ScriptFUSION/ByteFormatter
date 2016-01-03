@@ -23,6 +23,12 @@ class ByteFormatter
     /** @var int */
     private $precision = 0;
 
+    /** @var bool */
+    private $automaticPrecision = true;
+
+    /** @var int */
+    private $exponent;
+
     /** @var UnitDecorator */
     private $unitDecorator;
 
@@ -51,14 +57,48 @@ class ByteFormatter
     public function format($bytes, $precision = null)
     {
         // Use default precision when not specified.
-        $precision === null && $precision = $this->precision;
+        $precision === null && $precision = $this->getPrecision();
 
-        $log = log($bytes, $this->base);
-        $exponent = max(0, $log|0);
-        $value = round(pow($this->base, $log - $exponent), $precision);
-        $units = $this->getUnitDecorator()->decorate($exponent, $this->base, $value);
+        $log = log($bytes, $this->getBase());
+        $exponent = $this->hasFixedExponent() ? $this->getFixedExponent() : max(0, $log|0);
+        $value = round(pow($this->getBase(), $log - $exponent), $precision);
+        $units = $this->getUnitDecorator()->decorate($exponent, $this->getBase(), $value);
 
-        return trim(sprintf($this->sprintfFormat, $value, $units));
+        return trim(sprintf($this->sprintfFormat, $this->formatValue($value, $precision), $units));
+    }
+
+    /**
+     * Formats the specified number with the specified precision.
+     *
+     * If precision scaling is enabled the precision may be reduced when it
+     * contains non-significant digits. If the fractional part is zero it may
+     * be removed entirely.
+     *
+     * @param float $value Number.
+     * @param $precision Number of fractional digits.
+     *
+     * @return string Formatted number.
+     */
+    private function formatValue($value, $precision)
+    {
+        $formatted = sprintf("%0.${precision}F", $value);
+
+        if ($this->hasAutomaticPrecision()) {
+            // [0 => integer part, 1 => fractional part].
+            $formattedParts = explode('.', $formatted);
+
+            if (isset($formattedParts[1])) {
+                // Strip trailing 0s in fractional part.
+                if (!$formattedParts[1] = chop($formattedParts[1], '0')) {
+                    // Remove fractional part.
+                    unset($formattedParts[1]);
+                }
+
+                $formatted = join('.', $formattedParts);
+            }
+        }
+
+        return $formatted;
     }
 
     /**
@@ -144,6 +184,87 @@ class ByteFormatter
         $this->precision = $precision|0;
 
         return $this;
+    }
+
+    /**
+     * Enables automatic precision scaling.
+     *
+     * @return $this
+     */
+    public function enableAutomaticPrecision()
+    {
+        $this->automaticPrecision = true;
+
+        return $this;
+    }
+
+    /**
+     * Disables automatic precision scaling.
+     *
+     * @return $this
+     */
+    public function disableAutomaticPrecision()
+    {
+        $this->automaticPrecision = false;
+
+        return $this;
+    }
+
+    /**
+     * Gets a value indicating whether precision will be scaled automatically.
+     *
+     * @return bool True if precision will be scaled automatically, otherwise
+     *     false.
+     */
+    public function hasAutomaticPrecision()
+    {
+        return $this->automaticPrecision;
+    }
+
+    /**
+     * Gets the fixed exponent.
+     *
+     * @return int Fixed exponent.
+     */
+    public function getFixedExponent()
+    {
+        return $this->exponent;
+    }
+
+    /**
+     * Sets the fixed exponent.
+     *
+     * @param int $exponent Fixed exponent.
+     *
+     * @return $this
+     */
+    public function setFixedExponent($exponent)
+    {
+        $this->exponent = $exponent|0;
+
+        return $this;
+    }
+
+    /**
+     * Clears any fixed exponent.
+     *
+     * @return $this
+     */
+    public function clearFixedExponent()
+    {
+        $this->exponent = null;
+
+        return $this;
+    }
+
+    /**
+     * Gets a value indicating whether a fixed exponent has been set.
+     *
+     * @return bool True if a fixed exponent has been set, otherwise false.
+     */
+    public function hasFixedExponent()
+    {
+        return $this->exponent !== null;
     }
 
     /**
