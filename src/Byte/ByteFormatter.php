@@ -71,8 +71,8 @@ class ByteFormatter
      * Formats the specified number with the specified precision.
      *
      * If precision scaling is enabled the precision may be reduced when it
-     * contains non-significant digits. If the fractional part is zero it may
-     * be removed entirely.
+     * contains insignificant digits. If the fractional part is zero it will
+     * be completely removed.
      *
      * @param float $value Number.
      * @param $precision Number of fractional digits.

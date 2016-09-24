@@ -4,15 +4,16 @@ ByteFormatter
 [![Version][Version image]][Releases]
 [![Build status][Build image]][Build]
 
-ByteFormatter is a [PSR-2](http://www.php-fig.org/psr/psr-2/) compliant PHP library that formats byte values as
-human-readable strings. An appropriate exponent is calculated automatically such that the value never exceeds the base.
-For example, in base 1024, `format(1023)` gives *1023 B* but `format(1024)` gives *1 KiB* instead of *1024 B*.
+ByteFormatter formats byte values as human-readable strings. An appropriate exponent is calculated automatically such
+that the value never exceeds the base. For example, in base 1024, `format(1023)` gives *1023 B* but `format(1024)` gives
+*1 KiB* instead of *1024 B*.
 
 Requirements
 ------------
 
-- PHP 5.5 and Composer.
-- Nothing else and no production dependencies!
+ - [PHP 5.5](http://php.net/)
+ - [Composer](https://getcomposer.org/)
+ - No production dependencies!
 
 Usage
 -----
@@ -192,6 +193,6 @@ This library is fully unit tested. Run the tests with `vendor/bin/phpunit test` 
 in this document can be found in `DocumentationTest`.
 
   [Releases]: https://github.com/ScriptFUSION/ByteFormatter/releases
-  [Version image]: http://img.shields.io/github/tag/ScriptFUSION/ByteFormatter.svg "Latest version"
+  [Version image]: https://poser.pugx.org/scriptfusion/byte-formatter/version "Latest version"
   [Build]: http://travis-ci.org/ScriptFUSION/ByteFormatter
   [Build image]: http://img.shields.io/travis/ScriptFUSION/ByteFormatter.svg "Build status"
