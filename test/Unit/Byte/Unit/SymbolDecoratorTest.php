@@ -11,7 +11,7 @@ final class SymbolDecoratorTest extends \PHPUnit_Framework_TestCase
         $decorator = new SymbolDecorator(SymbolDecorator::SUFFIX_NONE);
 
         foreach (['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'] as $exponent => $symbol) {
-            $this->assertSame($symbol, $decorator->decorate($exponent, 0, 0));
+            self::assertSame($symbol, $decorator->decorate($exponent, 0, 0));
         }
     }
 
@@ -20,7 +20,7 @@ final class SymbolDecoratorTest extends \PHPUnit_Framework_TestCase
         $decorator = (new SymbolDecorator(SymbolDecorator::SUFFIX_NONE))->alwaysShowUnit();
 
         foreach (['B', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'] as $exponent => $symbol) {
-            $this->assertSame($symbol, $decorator->decorate($exponent, 0, 0));
+            self::assertSame($symbol, $decorator->decorate($exponent, 0, 0));
         }
     }
 
@@ -29,7 +29,7 @@ final class SymbolDecoratorTest extends \PHPUnit_Framework_TestCase
         $decorator = new SymbolDecorator(SymbolDecorator::SUFFIX_METRIC);
 
         foreach (['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'] as $exponent => $symbol) {
-            $this->assertSame($symbol, $decorator->decorate($exponent, 0, 0));
+            self::assertSame($symbol, $decorator->decorate($exponent, 0, 0));
         }
     }
 
@@ -38,7 +38,7 @@ final class SymbolDecoratorTest extends \PHPUnit_Framework_TestCase
         $decorator = new SymbolDecorator(SymbolDecorator::SUFFIX_IEC);
 
         foreach (['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'] as $exponent => $symbol) {
-            $this->assertSame($symbol, $decorator->decorate($exponent, 0, 0));
+            self::assertSame($symbol, $decorator->decorate($exponent, 0, 0));
         }
     }
 
@@ -46,7 +46,12 @@ final class SymbolDecoratorTest extends \PHPUnit_Framework_TestCase
     {
         $decorator = new SymbolDecorator;
 
-        $this->assertSame('KiB', $decorator->decorate(1, Base::BINARY, 0));
-        $this->assertSame('KB', $decorator->decorate(1, Base::DECIMAL, 0));
+        self::assertSame('KiB', $decorator->decorate(1, Base::BINARY, 0));
+        self::assertSame('KB', $decorator->decorate(1, Base::DECIMAL, 0));
+    }
+
+    public function testSuffix()
+    {
+        self::assertSame($suffix = 'foo', (new SymbolDecorator)->setSuffix($suffix)->getSuffix());
     }
 }

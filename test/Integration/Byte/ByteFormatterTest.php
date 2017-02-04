@@ -1,5 +1,5 @@
 <?php
-namespace ScriptFUSIONTest\Integration;
+namespace ScriptFUSIONTest\Integration\Byte;
 
 use ScriptFUSION\Byte\Base;
 use ScriptFUSION\Byte\ByteFormatter;
@@ -19,7 +19,7 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
     /** @dataProvider provideBinaryIntegers */
     public function testBinaryFormat($integer, $formatted)
     {
-        $this->assertSame($formatted, $this->formatter->setBase(Base::BINARY)->format($integer));
+        self::assertSame($formatted, $this->formatter->setBase(Base::BINARY)->format($integer));
     }
 
     public function provideBinaryIntegers()
@@ -50,7 +50,7 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
     /** @dataProvider provideDecimalIntegers */
     public function testDecimalFormat($integer, $formatted)
     {
-        $this->assertSame($formatted, $this->formatter->setBase(Base::DECIMAL)->format($integer));
+        self::assertSame($formatted, $this->formatter->setBase(Base::DECIMAL)->format($integer));
     }
 
     public function provideDecimalIntegers()
@@ -79,8 +79,8 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
     /** @dataProvider providePrecisionIntegers */
     public function testPrecision($integer, $formatted)
     {
-        $this->assertSame($formatted, $this->formatter->setPrecision(2)->format($integer));
-        $this->assertSame($formatted, $this->formatter->setPrecision(5)->format($integer, 2));
+        self::assertSame($formatted, $this->formatter->setPrecision(2)->format($integer));
+        self::assertSame($formatted, $this->formatter->setPrecision(5)->format($integer, 2));
     }
 
     public function providePrecisionIntegers()
@@ -105,7 +105,7 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
     /** @dataProvider provideFormats */
     public function testFormats($format, $formatted)
     {
-        $this->assertSame($formatted, $this->formatter->setFormat($format)->format($this->formatter->getBase()));
+        self::assertSame($formatted, $this->formatter->setFormat($format)->format($this->formatter->getBase()));
     }
 
     public function provideFormats()
@@ -127,7 +127,7 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
         $this->formatter->setPrecision(8);
 
         $this->formatter->setFixedExponent($exponent);
-        $this->assertSame($formatted, $this->formatter->format($bytes));
+        self::assertSame($formatted, $this->formatter->format($bytes));
     }
 
     public function provideFixedExponents()
@@ -161,7 +161,7 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
     {
         $this->formatter->disableAutomaticPrecision();
 
-        $this->assertSame('512.50K', $this->formatter->format(0x80200, 2));
+        self::assertSame('512.50K', $this->formatter->format(0x80200, 2));
     }
 
     public function testCustomUnitSequence()
@@ -173,6 +173,6 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
                 ->getMock()
         );
 
-        $this->assertSame('1 foo', $formatter->format(1));
+        self::assertSame('1 foo', $formatter->format(1));
     }
 }

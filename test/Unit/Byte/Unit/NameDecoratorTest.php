@@ -23,7 +23,7 @@ final class NameDecoratorTest extends \PHPUnit_Framework_TestCase
                 'yobibytes',
             ] as $exponent => $name
         ) {
-            $this->assertSame($name, $decorator->decorate($exponent, Base::BINARY, 0));
+            self::assertSame($name, $decorator->decorate($exponent, Base::BINARY, 0));
         }
     }
 
@@ -44,7 +44,7 @@ final class NameDecoratorTest extends \PHPUnit_Framework_TestCase
                 'yottabytes',
             ] as $exponent => $name
         ) {
-            $this->assertSame($name, $decorator->decorate($exponent, Base::DECIMAL, 0));
+            self::assertSame($name, $decorator->decorate($exponent, Base::DECIMAL, 0));
         }
     }
 
@@ -65,7 +65,7 @@ final class NameDecoratorTest extends \PHPUnit_Framework_TestCase
                 'yobibyte',
             ] as $exponent => $name
         ) {
-            $this->assertSame($name, $decorator->decorate($exponent, Base::BINARY, 1));
+            self::assertSame($name, $decorator->decorate($exponent, Base::BINARY, 1));
         }
     }
 }
