@@ -48,7 +48,8 @@ final class NameDecoratorTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSingular() {
+    public function testSingular()
+    {
         $decorator = new NameDecorator;
 
         foreach (

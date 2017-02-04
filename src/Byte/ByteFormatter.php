@@ -1,8 +1,8 @@
 <?php
 namespace ScriptFUSION\Byte;
 
-use ScriptFUSION\Byte\Unit\UnitDecorator;
 use ScriptFUSION\Byte\Unit\SymbolDecorator;
+use ScriptFUSION\Byte\Unit\UnitDecorator;
 
 /**
  * Formats byte values as human-readable strings.

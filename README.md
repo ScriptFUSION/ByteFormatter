@@ -1,8 +1,11 @@
 ByteFormatter
 =============
 
-[![Version][Version image]][Releases]
+[![Latest version][Version image]][Releases]
+[![Total downloads][Downloads image]][Downloads]
 [![Build status][Build image]][Build]
+[![Test coverage][Coverage image]][Coverage]
+[![Code style][Style image]][Style]
 
 ByteFormatter formats byte values as human-readable strings. An appropriate exponent is calculated automatically such
 that the value never exceeds the base. For example, in base 1024, `format(1023)` gives *1023 B* but `format(1024)` gives
@@ -13,7 +16,6 @@ Requirements
 
  - [PHP 5.5](http://php.net/)
  - [Composer](https://getcomposer.org/)
- - No production dependencies!
 
 Usage
 -----
@@ -189,10 +191,17 @@ Using decimal base:
 Testing
 -------
 
-This library is fully unit tested. Run the tests with `vendor/bin/phpunit test` from the command line. All examples
+This library is fully unit tested. Run the tests with `composer test` from the command line. All examples
 in this document can be found in `DocumentationTest`.
+
 
   [Releases]: https://github.com/ScriptFUSION/ByteFormatter/releases
   [Version image]: https://poser.pugx.org/scriptfusion/byte-formatter/version "Latest version"
-  [Build]: http://travis-ci.org/ScriptFUSION/ByteFormatter
-  [Build image]: http://img.shields.io/travis/ScriptFUSION/ByteFormatter.svg "Build status"
+  [Downloads]: https://packagist.org/packages/scriptfusion/byte-formatter
+  [Downloads image]: https://poser.pugx.org/scriptfusion/byte-formatter/downloads "Total downloads"
+  [Build]: http://travis-ci.org/ScriptFUSION/Porter
+  [Build image]: https://travis-ci.org/ScriptFUSION/ByteFormatter.svg?branch=master "Build status"
+  [Coverage]: https://coveralls.io/github/ScriptFUSION/ByteFormatter
+  [Coverage image]: https://coveralls.io/repos/ScriptFUSION/ByteFormatter/badge.svg "Test coverage"
+  [Style]: https://styleci.io/repos/18541340
+  [Style image]: https://styleci.io/repos/18541340/shield?style=flat "Code style"

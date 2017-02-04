@@ -8,13 +8,10 @@ use ScriptFUSION\Byte\Base;
  */
 class SymbolDecorator implements UnitDecorator
 {
-    const
-        PREFIXES = 'KMGTPEZY',
-
-        SUFFIX_NONE   = '',
-        SUFFIX_METRIC = 'B',
-        SUFFIX_IEC    = 'iB'
-    ;
+    const PREFIXES = 'KMGTPEZY';
+    const SUFFIX_NONE = '';
+    const SUFFIX_METRIC = 'B';
+    const SUFFIX_IEC = 'iB';
 
     private $suffix;
     private $alwaysShowUnit;

@@ -1,21 +1,15 @@
 <?php
 namespace ScriptFUSION\Byte;
 
+use ScriptFUSION\StaticClass;
+
 /**
  * Specifies an exponentiation base.
  */
 final class Base
 {
-    const
-        DECIMAL = 1000,
-        BINARY  = 1024
-    ;
+    use StaticClass;
 
-    /**
-     * Prevents instantiation of this class.
-     */
-    private function __construct()
-    {
-        // Intentionally empty.
-    }
+    const DECIMAL = 1000;
+    const BINARY = 1024;
 }
