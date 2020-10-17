@@ -13,6 +13,7 @@ class SymbolDecorator implements UnitDecorator
     const SUFFIX_METRIC = 'B';
     const SUFFIX_IEC = 'iB';
 
+    private $prefixes = self::PREFIXES;
     private $suffix;
     private $alwaysShowUnit;
 
@@ -39,7 +40,19 @@ class SymbolDecorator implements UnitDecorator
             return $suffix !== static::SUFFIX_NONE || $this->alwaysShowUnit ? 'B' : '';
         }
 
-        return substr(static::PREFIXES, min($exponent, strlen(static::PREFIXES)) - 1, 1) . $suffix;
+        return $this->prefixes[min($exponent, strlen($this->prefixes)) - 1] . $suffix;
+    }
+
+    public function getPrefixes()
+    {
+        return $this->prefixes;
+    }
+
+    public function setPrefixes($prefixes)
+    {
+        $this->prefixes = (string)$prefixes;
+
+        return $this;
     }
 
     public function getSuffix()

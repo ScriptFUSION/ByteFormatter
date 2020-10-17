@@ -54,4 +54,13 @@ final class SymbolDecoratorTest extends \PHPUnit_Framework_TestCase
     {
         self::assertSame($suffix = 'foo', (new SymbolDecorator)->setSuffix($suffix)->getSuffix());
     }
+
+    public function testCustomPrefixes()
+    {
+        $decorator = (new SymbolDecorator())->setPrefixes('XYZ');
+
+        foreach (['B', 'X', 'Y', 'Z', 'Z', 'Z'] as $exponent => $symbol) {
+            self::assertSame($symbol, $decorator->decorate($exponent, 0, 0));
+        }
+    }
 }
