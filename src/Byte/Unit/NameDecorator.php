@@ -13,9 +13,9 @@ class NameDecorator implements UnitDecorator
         Base::DECIMAL => ['kilo', 'mega', 'giga', 'tera', 'peta', 'exa', 'zetta', 'yotta'],
     ];
 
-    public function decorate($exponent, $base, $value): string
+    public function decorate(int $exponent, int $base, float $value): string
     {
-        $suffix = $value === 1 ? 'byte' : 'bytes';
+        $suffix = $value === 1. ? 'byte' : 'bytes';
 
         if (!$exponent) {
             return $suffix;

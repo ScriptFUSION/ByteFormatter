@@ -16,5 +16,5 @@ interface UnitDecorator
      *
      * @return string Units.
      */
-    public function decorate($exponent, $base, $value);
+    public function decorate(int $exponent, int $base, float $value): string;
 }

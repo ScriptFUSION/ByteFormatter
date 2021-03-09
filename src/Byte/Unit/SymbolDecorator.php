@@ -22,7 +22,7 @@ class SymbolDecorator implements UnitDecorator
         $this->setSuffix($suffix);
     }
 
-    public function decorate($exponent, $base, $value): string
+    public function decorate(int $exponent, int $base, float $value): string
     {
         if (($suffix = $this->suffix) === null) {
             switch ($base) {
@@ -65,7 +65,7 @@ class SymbolDecorator implements UnitDecorator
      *
      * @return $this
      */
-    public function setSuffix($suffix): self
+    public function setSuffix(?string $suffix): self
     {
         $this->suffix = $suffix;
 

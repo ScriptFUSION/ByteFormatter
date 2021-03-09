@@ -9,7 +9,7 @@ use ScriptFUSION\Byte\Unit\UnitDecorator;
  */
 class ByteFormatter
 {
-    const DEFAULT_BASE = Base::BINARY;
+    private const DEFAULT_BASE = Base::BINARY;
 
     /** @var int */
     private $base = self::DEFAULT_BASE;
@@ -49,19 +49,19 @@ class ByteFormatter
     /**
      * Formats the specified number of bytes as a human-readable string.
      *
-     * @param int $bytes Number of bytes.
+     * @param int|float $bytes Number of bytes.
      * @param int|null $precision Optional. Number of fractional digits.
      *
      * @return string Formatted bytes.
      */
-    public function format($bytes, $precision = null): string
+    public function format($bytes, int $precision = null): string
     {
         // Use default precision when not specified.
         $precision === null && $precision = $this->getPrecision();
 
         $log = log($bytes, $this->getBase());
         $exponent = $this->hasFixedExponent() ? $this->getFixedExponent() : max(0, $log|0);
-        $value = round(pow($this->getBase(), $log - $exponent), $precision);
+        $value = round($this->getBase() ** ($log - $exponent), $precision);
         $units = $this->getUnitDecorator()->decorate($exponent, $this->getBase(), $value);
 
         return trim(sprintf($this->sprintfFormat, $this->formatValue($value, $precision), $units));
@@ -75,11 +75,11 @@ class ByteFormatter
      * be completely removed.
      *
      * @param float $value Number.
-     * @param $precision Number of fractional digits.
+     * @param int $precision Number of fractional digits.
      *
      * @return string Formatted number.
      */
-    private function formatValue($value, $precision): string
+    private function formatValue(float $value, int $precision): string
     {
         $formatted = sprintf("%0.${precision}F", $value);
 
@@ -108,7 +108,7 @@ class ByteFormatter
      *
      * @return string sprintf() format.
      */
-    private function convertFormat($format): string
+    private function convertFormat(string $format): string
     {
         return str_replace(['%v', '%u'], ['%1$s', '%2$s'], $format);
     }
@@ -130,9 +130,9 @@ class ByteFormatter
      *
      * @return $this
      */
-    public function setBase($base): self
+    public function setBase(int $base): self
     {
-        $this->base = $base|0;
+        $this->base = $base;
 
         return $this;
     }
@@ -155,9 +155,9 @@ class ByteFormatter
      *
      * @return $this
      */
-    public function setFormat($format): self
+    public function setFormat(string $format): self
     {
-        $this->sprintfFormat = $this->convertFormat($this->format = "$format");
+        $this->sprintfFormat = $this->convertFormat($this->format = $format);
 
         return $this;
     }
@@ -175,13 +175,13 @@ class ByteFormatter
     /**
      * Sets the maximum number of fractional digits.
      *
-     * @param $precision
+     * @param int $precision
      *
      * @return $this
      */
-    public function setPrecision($precision): self
+    public function setPrecision(int $precision): self
     {
-        $this->precision = $precision|0;
+        $this->precision = $precision;
 
         return $this;
     }
@@ -238,9 +238,9 @@ class ByteFormatter
      *
      * @return $this
      */
-    public function setFixedExponent($exponent): self
+    public function setFixedExponent(int $exponent): self
     {
-        $this->exponent = $exponent|0;
+        $this->exponent = $exponent;
 
         return $this;
     }

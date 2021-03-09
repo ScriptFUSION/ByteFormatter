@@ -144,17 +144,17 @@ final class ByteFormatterTest extends TestCase
             [6, 0x8000000000, '0.00000048E'],
 
             [1, 0, '0K'],
-            [1, pow(Base::BINARY, 0), '0.00097656K'],
-            [1, pow(Base::BINARY, 1), '1K'],
-            [1, pow(Base::BINARY, 2), '1024K'],
-            [1, pow(Base::BINARY, 3), '1048576K'],
-            [1, pow(Base::BINARY, 4), '1073741824K'],
-            [1, pow(Base::BINARY, 5), '1099511627776K'],
-            [1, pow(Base::BINARY, 6), '1125899906842624K'],
-            [1, pow(Base::BINARY, 7), '1152921504606846976K'],
-            [1, pow(Base::BINARY, 8), '1180591620717411303424K'],
-            [1, pow(Base::BINARY, 9), '1208925819614629174706176K'],
-            [1, pow(Base::BINARY, 10), '1237940039285380274899124224K'],
+            [1, Base::BINARY ** 0, '0.00097656K'],
+            [1, Base::BINARY ** 1, '1K'],
+            [1, Base::BINARY ** 2, '1024K'],
+            [1, Base::BINARY ** 3, '1048576K'],
+            [1, Base::BINARY ** 4, '1073741824K'],
+            [1, Base::BINARY ** 5, '1099511627776K'],
+            [1, Base::BINARY ** 6, '1125899906842624K'],
+            [1, Base::BINARY ** 7, '1152921504606846976K'],
+            [1, Base::BINARY ** 8, '1180591620717411303424K'],
+            [1, Base::BINARY ** 9, '1208925819614629174706176K'],
+            [1, Base::BINARY ** 10, '1237940039285380274899124224K'],
         ];
     }
 
