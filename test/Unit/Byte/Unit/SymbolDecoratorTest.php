@@ -1,12 +1,13 @@
 <?php
 namespace ScriptFUSIONTest\Unit\Byte\Unit;
 
+use PHPUnit\Framework\TestCase;
 use ScriptFUSION\Byte\Base;
 use ScriptFUSION\Byte\Unit\SymbolDecorator;
 
-final class SymbolDecoratorTest extends \PHPUnit_Framework_TestCase
+final class SymbolDecoratorTest extends TestCase
 {
-    public function testNoSuffix()
+    public function testNoSuffix(): void
     {
         $decorator = new SymbolDecorator(SymbolDecorator::SUFFIX_NONE);
 
@@ -15,7 +16,7 @@ final class SymbolDecoratorTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testAlwaysShowUnit()
+    public function testAlwaysShowUnit(): void
     {
         $decorator = (new SymbolDecorator(SymbolDecorator::SUFFIX_NONE))->alwaysShowUnit();
 
@@ -24,7 +25,7 @@ final class SymbolDecoratorTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testMetricSuffix()
+    public function testMetricSuffix(): void
     {
         $decorator = new SymbolDecorator(SymbolDecorator::SUFFIX_METRIC);
 
@@ -33,7 +34,7 @@ final class SymbolDecoratorTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testIecSuffix()
+    public function testIecSuffix(): void
     {
         $decorator = new SymbolDecorator(SymbolDecorator::SUFFIX_IEC);
 
@@ -42,7 +43,7 @@ final class SymbolDecoratorTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testAutomaticUnitSwitching()
+    public function testAutomaticUnitSwitching(): void
     {
         $decorator = new SymbolDecorator;
 
@@ -50,12 +51,12 @@ final class SymbolDecoratorTest extends \PHPUnit_Framework_TestCase
         self::assertSame('KB', $decorator->decorate(1, Base::DECIMAL, 0));
     }
 
-    public function testSuffix()
+    public function testSuffix(): void
     {
         self::assertSame($suffix = 'foo', (new SymbolDecorator)->setSuffix($suffix)->getSuffix());
     }
 
-    public function testCustomPrefixes()
+    public function testCustomPrefixes(): void
     {
         $decorator = (new SymbolDecorator())->setPrefixes('XYZ');
 

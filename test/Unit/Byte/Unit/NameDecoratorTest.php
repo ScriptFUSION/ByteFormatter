@@ -1,12 +1,13 @@
 <?php
 namespace ScriptFUSIONTest\Unit\Byte\Unit;
 
+use PHPUnit\Framework\TestCase;
 use ScriptFUSION\Byte\Base;
 use ScriptFUSION\Byte\Unit\NameDecorator;
 
-final class NameDecoratorTest extends \PHPUnit_Framework_TestCase
+final class NameDecoratorTest extends TestCase
 {
-    public function testBinarySequence()
+    public function testBinarySequence(): void
     {
         $decorator = new NameDecorator;
 
@@ -27,7 +28,7 @@ final class NameDecoratorTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testDecimalSequence()
+    public function testDecimalSequence(): void
     {
         $decorator = new NameDecorator;
 
@@ -48,7 +49,7 @@ final class NameDecoratorTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testSingular()
+    public function testSingular(): void
     {
         $decorator = new NameDecorator;
 

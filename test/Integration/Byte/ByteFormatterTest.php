@@ -1,28 +1,29 @@
 <?php
 namespace ScriptFUSIONTest\Integration\Byte;
 
+use PHPUnit\Framework\TestCase;
 use ScriptFUSION\Byte\Base;
 use ScriptFUSION\Byte\ByteFormatter;
 use ScriptFUSION\Byte\Unit\SymbolDecorator;
 use ScriptFUSION\Byte\Unit\UnitDecorator;
 
-final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
+final class ByteFormatterTest extends TestCase
 {
     /** @var ByteFormatter */
     private $formatter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->formatter = (new ByteFormatter(new SymbolDecorator(SymbolDecorator::SUFFIX_NONE)))->setFormat('%v%u');
     }
 
     /** @dataProvider provideBinaryIntegers */
-    public function testBinaryFormat($integer, $formatted)
+    public function testBinaryFormat($integer, $formatted): void
     {
         self::assertSame($formatted, $this->formatter->setBase(Base::BINARY)->format($integer));
     }
 
-    public function provideBinaryIntegers()
+    public function provideBinaryIntegers(): array
     {
         return [
             [0, '0'],
@@ -48,12 +49,12 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @dataProvider provideDecimalIntegers */
-    public function testDecimalFormat($integer, $formatted)
+    public function testDecimalFormat($integer, $formatted): void
     {
         self::assertSame($formatted, $this->formatter->setBase(Base::DECIMAL)->format($integer));
     }
 
-    public function provideDecimalIntegers()
+    public function provideDecimalIntegers(): array
     {
         return [
             [0, '0'],
@@ -77,13 +78,13 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @dataProvider providePrecisionIntegers */
-    public function testPrecision($integer, $formatted)
+    public function testPrecision($integer, $formatted): void
     {
         self::assertSame($formatted, $this->formatter->setPrecision(2)->format($integer));
         self::assertSame($formatted, $this->formatter->setPrecision(5)->format($integer, 2));
     }
 
-    public function providePrecisionIntegers()
+    public function providePrecisionIntegers(): array
     {
         return [
             [0, '0'],
@@ -103,12 +104,12 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @dataProvider provideFormats */
-    public function testFormats($format, $formatted)
+    public function testFormats($format, $formatted): void
     {
         self::assertSame($formatted, $this->formatter->setFormat($format)->format($this->formatter->getBase()));
     }
 
-    public function provideFormats()
+    public function provideFormats(): array
     {
         return [
             ['%v%u', '1K'],
@@ -122,7 +123,7 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @dataProvider provideFixedExponents */
-    public function testFixedExponent($exponent, $bytes, $formatted)
+    public function testFixedExponent($exponent, $bytes, $formatted): void
     {
         $this->formatter->setPrecision(8);
 
@@ -130,7 +131,7 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
         self::assertSame($formatted, $this->formatter->format($bytes));
     }
 
-    public function provideFixedExponents()
+    public function provideFixedExponents(): array
     {
         return [
             // TODO: Investigate rounding errors in following two cases.
@@ -157,14 +158,14 @@ final class ByteFormatterTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testDisableAutomaticPrecision()
+    public function testDisableAutomaticPrecision(): void
     {
         $this->formatter->disableAutomaticPrecision();
 
         self::assertSame('512.50K', $this->formatter->format(0x80200, 2));
     }
 
-    public function testCustomUnitSequence()
+    public function testCustomUnitSequence(): void
     {
         $formatter = (new ByteFormatter)->setUnitDecorator(
             \Mockery::mock(UnitDecorator::class)

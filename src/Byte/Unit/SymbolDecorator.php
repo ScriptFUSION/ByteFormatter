@@ -22,7 +22,7 @@ class SymbolDecorator implements UnitDecorator
         $this->setSuffix($suffix);
     }
 
-    public function decorate($exponent, $base, $value)
+    public function decorate($exponent, $base, $value): string
     {
         if (($suffix = $this->suffix) === null) {
             switch ($base) {
@@ -43,12 +43,12 @@ class SymbolDecorator implements UnitDecorator
         return $this->prefixes[min($exponent, strlen($this->prefixes)) - 1] . $suffix;
     }
 
-    public function getPrefixes()
+    public function getPrefixes(): string
     {
         return $this->prefixes;
     }
 
-    public function setPrefixes($prefixes)
+    public function setPrefixes($prefixes): SymbolDecorator
     {
         $this->prefixes = (string)$prefixes;
 
@@ -65,14 +65,14 @@ class SymbolDecorator implements UnitDecorator
      *
      * @return $this
      */
-    public function setSuffix($suffix)
+    public function setSuffix($suffix): self
     {
         $this->suffix = $suffix;
 
         return $this;
     }
 
-    public function alwaysShowUnit($show = true)
+    public function alwaysShowUnit($show = true): SymbolDecorator
     {
         $this->alwaysShowUnit = (bool)$show;
 

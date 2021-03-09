@@ -54,7 +54,7 @@ class ByteFormatter
      *
      * @return string Formatted bytes.
      */
-    public function format($bytes, $precision = null)
+    public function format($bytes, $precision = null): string
     {
         // Use default precision when not specified.
         $precision === null && $precision = $this->getPrecision();
@@ -79,7 +79,7 @@ class ByteFormatter
      *
      * @return string Formatted number.
      */
-    private function formatValue($value, $precision)
+    private function formatValue($value, $precision): string
     {
         $formatted = sprintf("%0.${precision}F", $value);
 
@@ -108,7 +108,7 @@ class ByteFormatter
      *
      * @return string sprintf() format.
      */
-    private function convertFormat($format)
+    private function convertFormat($format): string
     {
         return str_replace(['%v', '%u'], ['%1$s', '%2$s'], $format);
     }
@@ -118,7 +118,7 @@ class ByteFormatter
      *
      * @return int Exponentiation base.
      */
-    public function getBase()
+    public function getBase(): int
     {
         return $this->base;
     }
@@ -130,7 +130,7 @@ class ByteFormatter
      *
      * @return $this
      */
-    public function setBase($base)
+    public function setBase($base): self
     {
         $this->base = $base|0;
 
@@ -142,7 +142,7 @@ class ByteFormatter
      *
      * @return string Format specifier.
      */
-    public function getFormat()
+    public function getFormat(): string
     {
         return $this->format;
     }
@@ -155,7 +155,7 @@ class ByteFormatter
      *
      * @return $this
      */
-    public function setFormat($format)
+    public function setFormat($format): self
     {
         $this->sprintfFormat = $this->convertFormat($this->format = "$format");
 
@@ -167,7 +167,7 @@ class ByteFormatter
      *
      * @return int Fractional digits.
      */
-    public function getPrecision()
+    public function getPrecision(): int
     {
         return $this->precision;
     }
@@ -179,7 +179,7 @@ class ByteFormatter
      *
      * @return $this
      */
-    public function setPrecision($precision)
+    public function setPrecision($precision): self
     {
         $this->precision = $precision|0;
 
@@ -191,7 +191,7 @@ class ByteFormatter
      *
      * @return $this
      */
-    public function enableAutomaticPrecision()
+    public function enableAutomaticPrecision(): self
     {
         $this->automaticPrecision = true;
 
@@ -203,7 +203,7 @@ class ByteFormatter
      *
      * @return $this
      */
-    public function disableAutomaticPrecision()
+    public function disableAutomaticPrecision(): self
     {
         $this->automaticPrecision = false;
 
@@ -216,7 +216,7 @@ class ByteFormatter
      * @return bool True if precision will be scaled automatically, otherwise
      *     false.
      */
-    public function hasAutomaticPrecision()
+    public function hasAutomaticPrecision(): bool
     {
         return $this->automaticPrecision;
     }
@@ -226,7 +226,7 @@ class ByteFormatter
      *
      * @return int Fixed exponent.
      */
-    public function getFixedExponent()
+    public function getFixedExponent(): int
     {
         return $this->exponent;
     }
@@ -238,7 +238,7 @@ class ByteFormatter
      *
      * @return $this
      */
-    public function setFixedExponent($exponent)
+    public function setFixedExponent($exponent): self
     {
         $this->exponent = $exponent|0;
 
@@ -250,7 +250,7 @@ class ByteFormatter
      *
      * @return $this
      */
-    public function clearFixedExponent()
+    public function clearFixedExponent(): self
     {
         $this->exponent = null;
 
@@ -262,7 +262,7 @@ class ByteFormatter
      *
      * @return bool True if a fixed exponent has been set, otherwise false.
      */
-    public function hasFixedExponent()
+    public function hasFixedExponent(): bool
     {
         return $this->exponent !== null;
     }
@@ -272,7 +272,7 @@ class ByteFormatter
      *
      * @return UnitDecorator
      */
-    public function getUnitDecorator()
+    public function getUnitDecorator(): UnitDecorator
     {
         return $this->unitDecorator;
     }
@@ -284,7 +284,7 @@ class ByteFormatter
      *
      * @return $this
      */
-    public function setUnitDecorator(UnitDecorator $decorator)
+    public function setUnitDecorator(UnitDecorator $decorator): self
     {
         $this->unitDecorator = $decorator;
 

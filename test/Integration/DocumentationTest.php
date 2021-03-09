@@ -1,21 +1,22 @@
 <?php
 namespace ScriptFUSIONTest\Integration;
 
+use PHPUnit\Framework\TestCase;
 use ScriptFUSION\Byte\Base;
 use ScriptFUSION\Byte\ByteFormatter;
 use ScriptFUSION\Byte\Unit\NameDecorator;
 use ScriptFUSION\Byte\Unit\SymbolDecorator;
 
-final class DocumentationTest extends \PHPUnit_Framework_TestCase
+final class DocumentationTest extends TestCase
 {
-    public function testBasicUsage()
+    public function testBasicUsage(): void
     {
         self::assertSame('512 KiB', (new ByteFormatter)->format(0x80000));
 
         self::assertSame('500 KB', (new ByteFormatter)->setBase(Base::DECIMAL)->format(500000));
     }
 
-    public function testPrecision()
+    public function testPrecision(): void
     {
         self::assertSame('513 KiB', (new ByteFormatter)->format(0x80233));
 
@@ -31,17 +32,17 @@ final class DocumentationTest extends \PHPUnit_Framework_TestCase
         self::assertSame('512.5498 KiB', (new ByteFormatter)->setPrecision(2)->format(0x80233, 4));
     }
 
-    public function testOutputFormat()
+    public function testOutputFormat(): void
     {
         self::assertSame('512KiB', (new ByteFormatter)->setFormat('%v%u')->format(0x80000));
     }
 
-    public function testFixedExponent()
+    public function testFixedExponent(): void
     {
         self::assertSame('1024 KiB', (new ByteFormatter)->setFixedExponent(1)->format(1024 * 1024));
     }
 
-    public function testSymbolDecorator()
+    public function testSymbolDecorator(): void
     {
         self::assertSame(
             '512 KB',
@@ -71,7 +72,7 @@ final class DocumentationTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testNameDecorator()
+    public function testNameDecorator(): void
     {
         self::assertSame(
             '512 kibibytes',
