@@ -9,8 +9,7 @@ use ScriptFUSION\Byte\Unit\UnitDecorator;
 
 final class ByteFormatterTest extends TestCase
 {
-    /** @var ByteFormatter */
-    private $formatter;
+    private ByteFormatter $formatter;
 
     protected function setUp(): void
     {

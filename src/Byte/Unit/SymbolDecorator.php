@@ -13,9 +13,9 @@ class SymbolDecorator implements UnitDecorator
     const SUFFIX_METRIC = 'B';
     const SUFFIX_IEC = 'iB';
 
-    private $prefixes = self::PREFIXES;
-    private $suffix;
-    private $alwaysShowUnit;
+    private string $prefixes = self::PREFIXES;
+    private ?string $suffix;
+    private bool $alwaysShowUnit = false;
 
     public function __construct($suffix = null)
     {
@@ -72,9 +72,9 @@ class SymbolDecorator implements UnitDecorator
         return $this;
     }
 
-    public function alwaysShowUnit($show = true): SymbolDecorator
+    public function alwaysShowUnit(bool $show = true): SymbolDecorator
     {
-        $this->alwaysShowUnit = (bool)$show;
+        $this->alwaysShowUnit = $show;
 
         return $this;
     }

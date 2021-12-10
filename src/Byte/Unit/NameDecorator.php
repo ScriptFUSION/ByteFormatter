@@ -8,7 +8,7 @@ use ScriptFUSION\Byte\Base;
  */
 class NameDecorator implements UnitDecorator
 {
-    protected static $sequences = [
+    protected static array $sequences = [
         Base::BINARY => ['kibi', 'mebi', 'gibi', 'tebi', 'pebi', 'exbi', 'zebi', 'yobi'],
         Base::DECIMAL => ['kilo', 'mega', 'giga', 'tera', 'peta', 'exa', 'zetta', 'yotta'],
     ];

@@ -9,28 +9,19 @@ use ScriptFUSION\Byte\Unit\UnitDecorator;
  */
 class ByteFormatter
 {
-    private const DEFAULT_BASE = Base::BINARY;
+    private int $base = Base::BINARY;
 
-    /** @var int */
-    private $base = self::DEFAULT_BASE;
+    private string $format;
 
-    /** @var string */
-    private $format;
+    private string $sprintfFormat;
 
-    /** @var string */
-    private $sprintfFormat;
+    private int $precision = 0;
 
-    /** @var int */
-    private $precision = 0;
+    private bool $automaticPrecision = true;
 
-    /** @var bool */
-    private $automaticPrecision = true;
+    private ?int $exponent = null;
 
-    /** @var int */
-    private $exponent;
-
-    /** @var UnitDecorator */
-    private $unitDecorator;
+    private UnitDecorator $unitDecorator;
 
     /**
      * Initializes this instance, optionally with a specific unit decorator.
@@ -54,13 +45,13 @@ class ByteFormatter
      *
      * @return string Formatted bytes.
      */
-    public function format($bytes, int $precision = null): string
+    public function format(int|float $bytes, int $precision = null): string
     {
         // Use default precision when not specified.
         $precision === null && $precision = $this->getPrecision();
 
         $log = log($bytes, $this->getBase());
-        $exponent = $this->hasFixedExponent() ? $this->getFixedExponent() : max(0, $log|0);
+        $exponent = $this->hasFixedExponent() ? $this->getFixedExponent() : max(0, (int)$log);
         $value = round($this->getBase() ** ($log - $exponent), $precision);
         $units = $this->getUnitDecorator()->decorate($exponent, $this->getBase(), $value);
 
@@ -89,12 +80,12 @@ class ByteFormatter
 
             if (isset($formattedParts[1])) {
                 // Strip trailing 0s in fractional part.
-                if (!$formattedParts[1] = chop($formattedParts[1], '0')) {
+                if (!$formattedParts[1] = rtrim($formattedParts[1], '0')) {
                     // Remove fractional part.
                     unset($formattedParts[1]);
                 }
 
-                $formatted = join('.', $formattedParts);
+                $formatted = implode('.', $formattedParts);
             }
         }
 
