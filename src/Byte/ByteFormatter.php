@@ -72,7 +72,7 @@ class ByteFormatter
      */
     private function formatValue(float $value, int $precision): string
     {
-        $formatted = sprintf("%0.${precision}F", $value);
+        $formatted = sprintf("%0.{$precision}F", $value);
 
         if ($this->hasAutomaticPrecision()) {
             // [0 => integer part, 1 => fractional part].
