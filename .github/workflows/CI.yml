@@ -29,6 +29,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: xdebug
+          ini-values: error_reporting=-1
 
       - name: Validate composer.json
         run: composer validate
