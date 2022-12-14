@@ -1,9 +1,14 @@
 <phpunit
     beStrictAboutOutputDuringTests="true"
 >
+    <php>
+        <ini name="error_reporting" value="-1"/>
+    </php>
+
     <testsuite name="all">
         <directory>.</directory>
     </testsuite>
+
     <coverage processUncoveredFiles="true">
         <include>
             <directory>../src</directory>

@@ -11,16 +11,10 @@ ByteFormatter formats byte values as human-readable strings. An appropriate expo
 that the value never exceeds the base. For example, in base 1024, `format(1023)` gives *1023 B* but `format(1024)` gives
 *1 KiB* instead of *1024 B*.
 
-Requirements
-------------
-
- - [PHP 5.5](http://php.net/)
- - [Composer](https://getcomposer.org/)
-
 Usage
 -----
 
-By default bytes are divided using `Base::BINARY` into multiples of 1024.
+By default, bytes are divided using `Base::BINARY` into multiples of 1024.
 
 ```php
 (new ByteFormatter)->format(0x80000);
@@ -37,7 +31,7 @@ Bytes can be divided into multiples of 1000 by specifying `Base::DECIMAL` as the
 Precision
 ---------
 
-By default all values are rounded to the nearest integer.
+By default, all values are rounded to the nearest integer.
 
 ```php
 (new ByteFormatter)->format(0x80233);
@@ -101,15 +95,15 @@ always be in `KiB`. Consult the following table to see how exponents map to symb
 
 | Exponent | Symbol |
 |:--------:|:------:|
-|    0     |    B   |
-|    1     |    K   |
-|    2     |    M   |
-|    3     |    G   |
-|    4     |    T   |
-|    5     |    P   |
-|    6     |    E   |
-|    7     |    Z   |
-|    8     |    Y   |
+|    0     |   B    |
+|    1     |   K    |
+|    2     |   M    |
+|    3     |   G    |
+|    4     |   T    |
+|    5     |   P    |
+|    6     |   E    |
+|    7     |   Z    |
+|    8     |   Y    |
 
 Unit customization
 ------------------
@@ -199,8 +193,8 @@ in this document can be found in `DocumentationTest`.
   [Version image]: https://poser.pugx.org/scriptfusion/byte-formatter/version "Latest version"
   [Downloads]: https://packagist.org/packages/scriptfusion/byte-formatter
   [Downloads image]: https://poser.pugx.org/scriptfusion/byte-formatter/downloads "Total downloads"
-  [Build]: http://travis-ci.org/ScriptFUSION/Porter
-  [Build image]: https://travis-ci.org/ScriptFUSION/ByteFormatter.svg?branch=master "Build status"
+  [Build]: https://github.com/ScriptFUSION/ByteFormatter/actions/workflows/Tests.yaml
+  [Build image]: https://github.com/ScriptFUSION/ByteFormatter/actions/workflows/Tests.yaml/badge.svg "Build status"
   [Coverage]: https://coveralls.io/github/ScriptFUSION/ByteFormatter
   [Coverage image]: https://coveralls.io/repos/ScriptFUSION/ByteFormatter/badge.svg "Test coverage"
   [Style]: https://styleci.io/repos/18541340
