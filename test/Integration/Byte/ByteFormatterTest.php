@@ -33,7 +33,9 @@ final class ByteFormatterTest extends TestCase
             [0x80000, '512K'],
             [0x80001, '512K'],
             [0x801FF, '512K'],
-            [0x80200, '513K'],
+            // Rounding error fixed in 8.4.1.
+            // See: https://github.com/php/php-src/blob/9ee607823eae02996f4d2f17d778041b76ec3e19/UPGRADING#L728-L734
+            [0x80200, version_compare(PHP_VERSION, '8.4.0') > 0 ? '512K' : '513K'],
             [0x80201, '513K'],
             [0x80233, '513K'],
             [0x803FF, '513K'],

@@ -29,7 +29,7 @@ class ByteFormatter
      *
      * @param UnitDecorator|null $unitDecorator Optional. Unit decorator.
      */
-    public function __construct(UnitDecorator $unitDecorator = null)
+    public function __construct(?UnitDecorator $unitDecorator = null)
     {
         $this
             ->setUnitDecorator($unitDecorator ?: new SymbolDecorator)
@@ -45,7 +45,7 @@ class ByteFormatter
      *
      * @return string Formatted bytes.
      */
-    public function format(int|float $bytes, int $precision = null): string
+    public function format(int|float $bytes, ?int $precision = null): string
     {
         // Use default precision when not specified.
         $precision === null && $precision = $this->getPrecision();
