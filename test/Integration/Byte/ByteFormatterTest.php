@@ -177,4 +177,77 @@ final class ByteFormatterTest extends TestCase
 
         self::assertSame('1 foo', $formatter->format(1));
     }
+
+    /** @dataProvider provideSignificantFigures */
+    public function testSignificantFigures(int $significantFigures, int $in, string $out): void
+    {
+        $formatter = $this->formatter->setBase(Base::DECIMAL)->setSignificantFigures($significantFigures);
+
+        self::assertSame($out, $formatter->format($in));
+    }
+
+    public static function provideSignificantFigures(): iterable
+    {
+        return [
+            // Small numbers.
+            [1, 1, '1'],
+            [2, 1, '1'],
+            [1, 12, '10'],
+            [2, 12, '12'],
+            [3, 12, '12'],
+            [1, 123, '100'],
+            [2, 123, '120'],
+            [3, 123, '123'],
+
+            // Thousands.
+            [1, 1_234, '1K'],
+            [2, 1_234, '1.2K'],
+            [3, 1_234, '1.23K'],
+            [4, 1_234, '1.234K'],
+
+            [1, 12_345, '10K'],
+            [2, 12_345, '12K'],
+            [3, 12_345, '12.3K'],
+            [4, 12_345, '12.35K'],
+            [5, 12_345, '12.345K'],
+
+            // Millions.
+            [1, 1_234_567, '1M'],
+            [2, 1_234_567, '1.2M'],
+            [3, 1_234_567, '1.23M'],
+            [4, 1_234_567, '1.235M'],
+            [7, 1_234_567, '1.234567M'],
+
+            // Billions.
+            [1, 12_345_678_901, '10G'],
+            [2, 12_345_678_901, '12G'],
+            [3, 12_345_678_901, '12.3G'],
+            [4, 12_345_678_901, '12.35G'],
+
+            // Trillions.
+            [1, 1_234_567_890_123, '1T'],
+            [2, 1_234_567_890_123, '1.2T'],
+            [3, 1_234_567_890_123, '1.23T'],
+            [4, 1_234_567_890_123, '1.235T'],
+
+            // Quadrillions.
+            [1, 1_234_567_890_123_456, '1P'],
+            [2, 1_234_567_890_123_456, '1.2P'],
+            [3, 1_234_567_890_123_456, '1.23P'],
+            [4, 1_234_567_890_123_456, '1.235P'],
+
+            // PHP_INT_MAX boundary case.
+            [1, 9_223_372_036_854_775_807, '9E'],
+            [2, 9_223_372_036_854_775_807, '9.2E'],
+            [3, 9_223_372_036_854_775_807, '9.22E'],
+            [4, 9_223_372_036_854_775_807, '9.223E'],
+        ];
+    }
+
+    public function testClearingSigFigFallsBackToPrecision(): void
+    {
+        $formatter = $this->formatter->setBase(Base::DECIMAL)->setSignificantFigures(3)->setPrecision(2);
+
+        self::assertSame('908.61K', $formatter->format(908_614));
+    }
 }

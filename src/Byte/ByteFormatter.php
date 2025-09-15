@@ -21,6 +21,8 @@ class ByteFormatter
 
     private ?int $exponent = null;
 
+    private ?int $significantFigures = null;
+
     private UnitDecorator $unitDecorator;
 
     /**
@@ -52,26 +54,49 @@ class ByteFormatter
 
         $log = log($bytes, $this->getBase());
         $exponent = $this->hasFixedExponent() ? $this->getFixedExponent() : max(0, (int)$log);
-        $value = round($this->getBase() ** ($log - $exponent), $precision);
+        $rawValue = $this->getBase() ** ($log - $exponent);
+        $value = $this->significantFigures ? $this->roundToSignificantFigures($rawValue) : round($rawValue, $precision);
         $units = $this->getUnitDecorator()->decorate($exponent, $this->getBase(), $value);
 
         return trim(sprintf($this->sprintfFormat, $this->formatValue($value, $precision), $units));
     }
 
     /**
-     * Formats the specified number with the specified precision.
+     * Rounds the specified value to the number of significant figures defined for this instance.
      *
-     * If precision scaling is enabled the precision may be reduced when it
-     * contains insignificant digits. If the fractional part is zero it will
+     * @param float $value Value.
+     *
+     * @return float Rounded value.
+     */
+    private function roundToSignificantFigures(float $value): float
+    {
+        if ($value === 0.) {
+            return 0.;
+        }
+
+        $factor = 10 ** ($this->significantFigures - floor(log10(abs($value))) - 1);
+
+        return round($value * $factor) / $factor;
+    }
+
+    /**
+     * Formats the specified number with the specified precision or significant figures.
+     *
+     * If precision scaling is enabled, the precision may be reduced when it
+     * contains insignificant digits. If the fractional part is zero, it will
      * be completely removed.
      *
      * @param float $value Number.
-     * @param int $precision Number of fractional digits.
+     * @param int $precision Number of fractional digits. Ignored when significant figures are set.
      *
      * @return string Formatted number.
      */
     private function formatValue(float $value, int $precision): string
     {
+        if ($this->significantFigures !== null) {
+            return (string)$value;
+        }
+
         $formatted = sprintf("%0.{$precision}F", $value);
 
         if ($this->hasAutomaticPrecision()) {
@@ -115,7 +140,7 @@ class ByteFormatter
     }
 
     /**
-     * Sets the exponentiation base which should usually be a Base constant.
+     * Sets the exponentiation base, which should usually be a Base constant.
      *
      * @param int $base Exponentiation base.
      *
@@ -166,13 +191,14 @@ class ByteFormatter
     /**
      * Sets the maximum number of fractional digits.
      *
-     * @param int $precision
+     * @param int $precision Fractional digits.
      *
      * @return $this
      */
     public function setPrecision(int $precision): self
     {
         $this->precision = $precision;
+        $this->significantFigures = null;
 
         return $this;
     }
@@ -204,8 +230,7 @@ class ByteFormatter
     /**
      * Gets a value indicating whether precision will be scaled automatically.
      *
-     * @return bool True if precision will be scaled automatically, otherwise
-     *     false.
+     * @return bool True if precision is scaled automatically, otherwise false.
      */
     public function hasAutomaticPrecision(): bool
     {
@@ -256,6 +281,18 @@ class ByteFormatter
     public function hasFixedExponent(): bool
     {
         return $this->exponent !== null;
+    }
+
+    /**
+     * Sets the number of significant figures.
+     *
+     * @param int $significantFigures Number of significant figures.
+     */
+    public function setSignificantFigures(int $significantFigures): self
+    {
+        $this->significantFigures = $significantFigures;
+
+        return $this;
     }
 
     /**

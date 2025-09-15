@@ -45,8 +45,7 @@ Increasing the default precision with `setPrecision()` allows the specified numb
 ```
 > 512.55 KiB
 
-Increasing the precision will increase the maximum digits allowed but the formatter will only display as many as
-needed.
+Increasing the precision will increase the maximum digits allowed, but the formatter will only display as many as needed.
 
 ```php
 (new ByteFormatter)->setPrecision(2)->format(0x80200);
@@ -66,6 +65,28 @@ The default precision can be overridden by passing the second argument to `forma
 (new ByteFormatter)->setPrecision(2)->format(0x80233, 4);
 ```
 > 512.5498 KiB
+
+Significant figures
+-------------------
+
+Formatting by the specified number of significant figures by calling `setSignificantFigures()`. This is mutually exclusive with precision scaling such that whichever method is called last will be used.
+
+```php
+(new ByteFormatter)->setBase(Base::DECIMAL)->setSignificantFigures(2)->format(123);
+```
+> 120
+
+```php
+(new ByteFormatter)->setBase(Base::DECIMAL)->setSignificantFigures(2)->format(1234);
+```
+> 1.2K
+
+```php
+(new ByteFormatter)->setBase(Base::DECIMAL)->setSignificantFigures(3)->format(1234);
+```
+> 1.23K
+
+This is particularly useful for keeping the display width of formatted numbers predicable.
 
 Output format
 -------------
