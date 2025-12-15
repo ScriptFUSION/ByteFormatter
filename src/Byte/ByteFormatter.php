@@ -53,7 +53,7 @@ class ByteFormatter
         $precision === null && $precision = $this->getPrecision();
 
         $log = log($bytes, $this->getBase());
-        $exponent = $this->hasFixedExponent() ? $this->getFixedExponent() : max(0, (int)$log);
+        $exponent = $this->hasFixedExponent() ? $this->getFixedExponent() : max(0, $log > -INF ? (int)$log : 0);
         $rawValue = $this->getBase() ** ($log - $exponent);
         $value = $this->significantFigures ? $this->roundToSignificantFigures($rawValue) : round($rawValue, $precision);
         $units = $this->getUnitDecorator()->decorate($exponent, $this->getBase(), $value);
